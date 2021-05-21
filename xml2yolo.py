@@ -71,16 +71,16 @@ def file_copy():
     txt_list = [file for file in os.listdir(here+"/tmp") if ".txt" in file]
     image_list = [file for file in os.listdir(here+"/tmp") if ".jpg" in file]
     list(map(lambda file: shutil.copy("tmp/"+file, "xml_backup/"+file), xml_list))
-    list(map(lambda file:shutil.copy("tmp/"+file, "result/"+file), txt_list))
-    list(map(lambda file: shutil.copy("images/"+file, "result/"+file), image_list))
-    list(map(lambda file: shutil.copy("images/"+file, "backup/"+file), image_list))
+    list(map(lambda file:shutil.copy("result/"+file, "obj/"+file), txt_list))
+    list(map(lambda file: shutil.copy("tmp/"+file, "result/"+file), image_list))
+    list(map(lambda file: shutil.copy("tmp/"+file, "obj/"+file), image_list))
     for file in xml_list+txt_list+image_list:
         os.remove("tmp/"+file)
 
 convert_xml2yolo(lut, "tmp", "result")
 file_copy()
-paths = glob.glob("backup/*.jpg")
+paths = glob.glob("obj/*.jpg")
 with open("train.txt", "w") as f:
     for path in paths:
-        path = path.replace("images", "data/obj").replace("\\", "/").replace("./", "")
+        path = path.replace("obj", "data/obj").replace("\\", "/").replace("./", "")
         f.write(path + '\n')
